@@ -1,0 +1,39 @@
+#include <Servo.h>
+Servo servo1;
+int trigPin = 8;
+int echoPin = 9;
+int ledPin = 12;
+long distance;
+long duration;
+ 
+void setup() 
+{
+servo1.attach(11); 
+ pinMode(trigPin, OUTPUT);
+ pinMode(echoPin, INPUT);
+ pinMode(ledPin, OUTPUT);
+}
+ 
+void loop() {
+  ultra();
+  servo1.write(0);
+  if((distance<=250) && (distance>=50)){
+  servo1.write(180);
+   digitalWrite(ledPin, HIGH); 
+  }
+  else if(distance <= 50){
+  servo1.write(0);
+    digitalWrite(ledPin, LOW);
+  }
+  else{digitalWrite(ledPin, LOW);}
+}
+ 
+void ultra(){
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration*0.034/2;
+  }
